@@ -27,6 +27,20 @@ const getProductById = async (req, res, next) => {
   }
 };
 
+const getProductById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single();
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    next(error);
+  }
+};
 const createProduct = async (req, res, next) => {
   try {
     const { name, description, price, stock } = req.body;
